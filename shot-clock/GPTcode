@@ -1,0 +1,94 @@
+// Import the Firebase Admin SDK
+const functions = require('firebase-functions');
+const admin = require('firebase-admin');
+admin.initializeApp();
+
+// Set up a listener for changes to the "games" node in the Realtime Database
+exports.updateQueue = functions.database.ref('/games').onWrite((change, context) => {
+  const gamesRef = change.after.ref;
+
+  // Get the current value of the "games" node
+  const gamesSnapshot = change.after;
+
+  // Get the total number of players currently playing
+  const currentPlayers = gamesSnapshot.numChildren();
+
+  // Loop through each game and calculate the estimated wait time for each player
+  gamesSnapshot.forEach((gameSnapshot) => {
+    const game = gameSnapshot.val();
+    const waitTime = calculateWaitTime(game, currentPlayers);
+    gameSnapshot.ref.update({
+      waitTime: waitTime
+    });
+  });
+
+  // Return a success message
+  return "Queue updated successfully";
+});
+
+// Helper function to calculate the estimated wait time for a game
+function calculateWaitTime(game, currentPlayers) {
+  const playersNeeded = 5 - game.players.length;
+  const estimatedPlayTime = 30; // In minutes, for example
+  const waitTime = playersNeeded * estimatedPlayTime + (currentPlayers - game.players.length) * estimatedPlayTime;
+  return waitTime;
+}
+
+// Set up a listener for changes to the "players" node in the Realtime Database
+exports.updatePlayers = functions.database.ref('/players').onWrite((change, context) => {
+  const playersRef = change.after.ref;
+
+  // Get the current value of the "players" node
+  const playersSnapshot = change.after;
+
+  // Loop through each player and update their information
+  playersSnapshot.forEach((playerSnapshot) => {
+    const player = playerSnapshot.val();
+
+    // Calculate the player's overall skill level
+    const skillLevel = calculateSkillLevel(player);
+
+    // Update the player's "skillLevel" property in the database
+    playerSnapshot.ref.update({
+      skillLevel: skillLevel
+    });
+  });
+
+  // Return a success message
+  return "Player data updated successfully";
+});
+
+// Helper function to calculate a player's overall skill level
+function calculateSkillLevel(player) {
+  // Replace these example weights with appropriate values for your app
+  const heightWeight = 0.3;
+  const yearsPlayingWeight = 0.4;
+  const positionWeight = 0.3;
+
+  // Calculate a weighted average of the player's features
+  const heightScore = player.height * heightWeight;
+  const yearsPlayingScore = player.yearsPlaying * yearsPlayingWeight;
+  const positionScore = getPositionScore(player.position) * positionWeight;
+  const skillLevel = heightScore + yearsPlayingScore + positionScore;
+
+  return skillLevel;
+}
+
+// Helper function to map a position string to a numerical score
+function getPositionScore(position) {
+  switch (position) {
+    case "point guard":
+      return 0.8;
+    case "shooting guard":
+      return 0.7;
+    case "small forward":
+      return 0.6;
+    case "power forward":
+      return 0.5;
+    case "center":
+      return 0.4;
+    default:
+      return 0.0;
+  }
+}
+
