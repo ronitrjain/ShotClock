@@ -237,7 +237,7 @@ export default function Home(props) {
 
         <View style={styles.container}>
                 <Text style={styles.titleText}>
-                    Brown's Wait
+                    Shot Clock
                 </Text>
 
                 <View style={styles.topRightButtons}>
@@ -254,30 +254,7 @@ export default function Home(props) {
                 </View>
             </View>
             
-        <View style={{flex: 1}}>
-            
-            {/* <FlatList              
-                enableAutomaticScroll={true}
-                // ref={flatListRef}
-                enableOnAndroid={true}
-                // getItemLayout={(data, index) => {
-                //     {length: 100}
-                // }}
-                // keyExtractor={keyExtractor}
-                showsVerticalScrollIndicator={true}
-                // onEndReached={onEndReached}
-                // onEndReachedThreshold={0.2}
-                windowSize={10}
-                inverted={true}
-                // onScroll={onScroll}
-                data={lineData}
-                // refreshing={isRefreshingList}
-                style={styles.flatList}
-                contentContainerStyle={{marginVertical: 10, paddingBottom: 20}}
-                numColumns={1}                
-                renderItem = {renderItem}
-            />   */}
-
+        {/* <View style={{flex: 1}}>
             <Text style={{fontSize: 30, alignSelf: 'center', marginTop: 20}}>
                 Current Line: {currentLength < 0.2 ? 'short' : currentLength < 0.7 ? 'mid' : 'long'}
             </Text>
@@ -292,54 +269,8 @@ export default function Home(props) {
             <TouchableOpacity style={{marginTop: 40, padding: 30,borderRadius: 10, backgroundColor: '#60a5da', marginHorizontal: 40, alignContent: 'center', justifyContent: 'center'}}
                 onPress={onPressSendLine}>
                 <Text style={{alignSelf: 'center', color: '#fff', fontSize: 25}}>Enter Line Wait</Text>
-            </TouchableOpacity>
-                
-        </View>
-{/*             
-        
-        <View style={{flex:1}}>
-            <Slider value={0.5} />
+            </TouchableOpacity>        
         </View> */}
-        {/* <FlatList 
-            ListHeaderComponent={
-                <View style={styles.container}>
-                    <Text style={styles.titleText}>
-                        Brown's Wait
-                    </Text>
-
-                    <View style={styles.topRightButtons}>
-                        <TouchableOpacity onPress={ () => {
-                            onPlusPressed();
-                        }}>
-                            <FontAwesome name="plus-square-o"  style={styles.plus}/>
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={ () => {
-                            onSettingsPressed();
-                        }}>
-                            <FontAwesome name='cog' color={'black'} style={styles.settingsCog}/>
-                        </TouchableOpacity>
-                    </View>
-                </View>
-            }
-            data={groupData}
-            numColumns={1}
-            renderItem = { ({item}) => (
-                <GroupButton key={item.id} 
-                    {...item} 
-                    onClickShare={() => onShare(item)}
-                    onClickCopy={() => onClickCopy(item.groupCode)}
-                    onClick={() => onGroupButtonClicked(item)} />
-            )
-            }
-
-            ListFooterComponent={
-                <TouchableOpacity style={styles.join} onPress={() => {setIsJoinModalVisible(true)}}>
-                    <View style={styles.header}>
-                        <Text ellipsizeMode='tail' numberOfLines={1} style={styles.joinText}>Join new group?</Text>
-                    </View>
-                </TouchableOpacity>
-            }
-        /> */}
     </SafeAreaView>
   )
 }
