@@ -20,7 +20,7 @@ export default function App() {
     <MenuProvider>
       <NavigationContainer>
           <Stack.Navigator /*screenOptions={{headerShown: false}}*/ > 
-              <Stack.Screen
+              {/* <Stack.Screen
                 name='Login'
                 options={{headerShown: false}}   
                 component={LoginScreen}
@@ -34,7 +34,7 @@ export default function App() {
                 name='ForgotPassword'
                 options={{headerShown: true, title: 'Password Reset'}}   
                 component={ForgotPasswordScreen}
-              />
+              /> */}
               <Stack.Screen 
                 name='Home'
                 options={{headerShown: false,}}       

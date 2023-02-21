@@ -13,13 +13,11 @@ import * as Clipboard from 'expo-clipboard';
 // import Slider from 'react-native-custom-slider';
 
 export default function Home(props) {
-    const [userData, setUserData] = useState(props.route.params.user);
+    const [userData, setUserData] = useState({} ?? props.route.params.user);
 
     const usersRef = firebase.firestore().collection('users');
 
     const navigation = useNavigation();
-
-
 
     const [modalGroupCode, setModalGroupCode] = useState('')
 
@@ -37,6 +35,48 @@ export default function Home(props) {
     const onSettingsPressed = () => {
         navigation.navigate('Settings', userData)
     };
+
+    // auth.onAuthStateChanged((user) => {
+    //     if (user) {
+
+    //         const uid = user.uid;
+    //         alert(user);
+    //     } else {
+    //         alert("User is signed out")
+    //     }
+    // });
+
+    firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+                const uid = user.uid;
+                console.log("Signed in", uid)
+                setUserData({uid: uid})
+            } else {
+                console.log("Signed out")
+                // signInAnon();
+            }
+        })
+        
+    function signInAnon() {
+        firebase.auth().signInAnonymously()
+        .then(() => {
+                // Signed in..
+                // console.log("signed in anon")
+            })
+            .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            console.log("error signing in")
+
+            // ...
+            });
+
+    }
+
+    useEffect(() => {
+        signInAnon()
+    }, [])
+        
 
   return (
     
