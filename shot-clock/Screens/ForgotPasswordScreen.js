@@ -4,6 +4,7 @@ import { Image, ScrollView, Text, TextInput, TouchableOpacity, View, StyleSheet 
 // import styles from './styles';
 import { firebase } from '../config'
 import { useNavigation } from '@react-navigation/native';
+import { SafeAreaView } from 'react-native';
 
 
 export default function ForgotPasswordScreen() {
